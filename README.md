@@ -1,7 +1,7 @@
 MLibrary
 =========
 
-***Data manipulation library for medical research.***
+***Data manipulation library.***
 
 ## System requirement
 
