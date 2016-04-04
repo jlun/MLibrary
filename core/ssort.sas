@@ -1,9 +1,9 @@
 /**************************************************************
-  Sorting data
+  Simple sorting function.
  **************************************************************/
 
-%MACRO msort(indata, index);
+%MACRO ssort(indata, index);
 PROC SORT DATA = &indata ;
   BY &index;
 RUN;
-%MEND msort;
+%MEND ssort;
