@@ -1,10 +1,10 @@
 %MACRO gop(indata, outdata, datafrom, index, icd_code, prefix=);
-    %IF &datafrom = cd %THEN %DO; 
+    %IF &datafrom = cd %THEN %DO;
         %LET diavar = ICD_OP_CODE ;
         %LET dianum = 1;
         %LET eventdt = FUNC_DATE;
     %END;
-    %IF &datafrom = dd %THEN %DO; 
+    %IF &datafrom = dd %THEN %DO;
         %LET diavar = ICD_OP_CODE ICD_OP_CODE_1-ICD_OP_CODE_4 ;
         %LET dianum = 5 ;
         %LET eventdt = IN_DATE;
@@ -32,15 +32,15 @@
         %let ordervar = drug_no;
     %end;
     %IF &datafrom = do %then %do;
-        %let ordervar = order_code;    
+        %let ordervar = order_code;
     %end;
     %IF &datafrom = go %then %do;
-        %let ordervar = drug_no;    
+        %let ordervar = drug_no;
     %end;
     %LET len = %LENGTH(&orders);
     proc sql;
     create table &outdata as
-        select orders.*, ori.* 
+        select orders.*, ori.*
             from &order_table as orders, &indata as ori
             WHERE substr(ori.&ordervar , 1, &len) = substr(orders.&orders , 1, &len) ;
 
@@ -54,10 +54,10 @@
         %let ordervar = drug_no;
     %end;
     %IF &datafrom = do %then %do;
-        %let ordervar = order_code;    
+        %let ordervar = order_code;
     %end;
     %IF &datafrom = go %then %do;
-        %let ordervar = drug_no;    
+        %let ordervar = drug_no;
     %end;
     %LET codelen = %LENGTH(&order);
     DATA &outdata;
@@ -68,10 +68,10 @@
 %MEND godx;
 
 
-%MACRO greco(indata1,indata2,outdata, datafrom);
+%MACRO greco(indata1,indata2,outdata);
 proc sql;
 create table &outdata as
-    select in1.*, in2.* 
+    select in1.*, in2.*
         from &indata1 as in1, &indata2 as in2
         where (
                     in1.fee_ym=in2.fee_ym and
@@ -120,8 +120,7 @@ quit;
     %IF %LENGTH(&other) ^= 0 %THEN %LET parameter = &other;
         %ELSE %LET parameter= ;
 
-    PROC SORT DATA=&indata; 
+    PROC SORT DATA=&indata;
         BY &index &parameter;
     RUN;
 %MEND ssort;
-
