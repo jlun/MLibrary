@@ -37,11 +37,12 @@
     %IF &datafrom = go %then %do;
         %let ordervar = drug_no;    
     %end;
+    %LET len = %LENGTH(&orders);
     proc sql;
     create table &outdata as
         select orders.*, ori.* 
             from &order_table as orders, &indata as ori
-            WHERE ori.&ordervar = orders.&orders ;
+            WHERE substr(ori.&ordervar , 1, &len) = substr(orders.&orders , 1, &len) ;
 
     quit;
     run;
@@ -87,8 +88,8 @@ quit;
 %MACRO deldata(libsrc, dataset);
     proc datasets nodetails nolist lib=&libsrc;
         delete &dataset  ;
-    quit;
     run;
+    quit;
 %MEND deldata;
 
 
